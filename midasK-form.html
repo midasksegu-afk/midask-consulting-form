@@ -851,7 +851,7 @@ body::after{
 </div>
 
 <script>
-const FORM_ACTION = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdekYKnPgYRFSukf0WuZ2NnjOrFi7xrbrQkBLBinlO5YmXYfQ/formResponse';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8p-Y7z2By-Xr-XNlifzo2GxBtJCuq4QaRYJ7akyyOlvgGihvAsKD-iD81oVcPJdo/exec';
 
 /* ── 토스트 알림 ── */
 function showToast(msg) {
@@ -1008,12 +1008,6 @@ function handleSubmit() {
   }
 
   /* 데이터 조합 */
-  const studentInfo = [
-    nameEl.value.trim(),
-    schoolEl.value.trim(),
-    gradeEl.value
-  ].filter(Boolean).join(', ');
-
   const parentPhone  = [p1, p2, p3].join('-');
   const studentPhone = getPhone('s1','s2','s3');
   const target    = document.getElementById('target').value.trim();
@@ -1022,59 +1016,58 @@ function handleSubmit() {
   const gradeInfo = [gpa, mock].filter(Boolean).join(' / ');
 
   const svcMap = {
-    '00': '예비고1 학종 얼리버드 컨설팅 (학종특강, 진로컨설팅, 비교과 활동 기획)',
-    '01': '학생부 관리컨설팅 (학년별 연간관리)',
-    '02': '학생부 기재 관리컨설팅 (온라인 세특 관리)',
-    '03': '세특전략 컨설팅 (학생부 강약점 분석 + 이전 활동 심화 확장 주제 및 탐구 스토리 제공 )',
-    '04': '학종 특강 (학생부 셀프디자인, 서류평가 원리, 세특 전략 빌드업 수업)',
+    '00': '예비고1 학종 얼리버드 컨설팅',
+    '01': '학생부 연간 관리컨설팅',
+    '02': '학생부 기재 관리컨설팅',
+    '03': '세특전략 컨설팅',
+    '04': '학종 특강',
     '05': '수시&정시 원서전략 컨설팅',
-    '06': '대입 수시 면접컨설팅 (서류기반 심층면접)',
+    '06': '대입 수시 면접컨설팅',
     '07': '학생부 현장 분석',
-    '08': '교과&정시 전략관리  컨설팅',
+    '08': '교과&정시 전략관리 컨설팅',
   };
 
-  /* 구글폼 전송 */
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = FORM_ACTION;
-  form.target = 'hidden_iframe';
-  form.style.display = 'none';
+  const services = Array.from(svcEls).map(el => svcMap[el.value] || el.value).join(', ');
 
-  function addField(name, value) {
-    const inp = document.createElement('input');
-    inp.type = 'hidden'; inp.name = name; inp.value = value;
-    form.appendChild(inp);
-  }
+  /* 버튼 로딩 상태 */
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = '신청 중...';
+  btn.disabled = true;
 
-  addField('entry.1941031617', studentInfo);
-  addField('entry.427698587',  parentPhone);
-  if (studentPhone) addField('entry.249460887', studentPhone);
-  if (target)       addField('entry.599451360', target);
-  if (gradeInfo)    addField('entry.312604734', gradeInfo);
-  addField('entry.2055232012', routeEl.value);
-  svcEls.forEach(el => addField('entry.1925903234', svcMap[el.value] || el.value));
-  addField('entry.2104013912', '예');
-  addField('entry.349635224',  '예');
+  /* Apps Script 로 전송 */
+  const payload = {
+    studentName:  nameEl.value.trim(),
+    schoolName:   schoolEl.value.trim(),
+    grade:        gradeEl.value,
+    parentPhone:  parentPhone,
+    studentPhone: studentPhone,
+    target:       target,
+    gradeInfo:    gradeInfo,
+    route:        routeEl.value,
+    services:     services
+  };
 
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
-
-  setTimeout(() => {
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
     document.getElementById('formArea').style.display = 'none';
     document.getElementById('successScreen').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 400);
+  })
+  .catch(() => {
+    // no-cors라 에러가 와도 성공으로 처리
+    document.getElementById('formArea').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 }
 
 /* ── 초기화 ── */
 document.addEventListener('DOMContentLoaded', function () {
-  // 숨김 iframe
-  const iframe = document.createElement('iframe');
-  iframe.name = 'hidden_iframe';
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
-
   // 보호자 전화 3칸
   setupPhoneRow(['p1','p2','p3'], [3, 4, 4]);
   // 학생 전화 3칸
