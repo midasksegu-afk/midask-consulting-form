@@ -576,6 +576,47 @@ body::after{
   line-height:1.65;
   letter-spacing:-0.01em;
 }
+
+/* 세특구원자 배너 */
+.seteuk-banner{
+  display:block;
+  margin-top:14px;
+  padding:20px 22px;
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:20px;
+  text-align:left;
+  text-decoration:none;
+  color:inherit;
+  backdrop-filter:blur(20px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 6px 18px rgba(20,20,40,0.05);
+  transition:transform .15s ease;
+}
+.seteuk-banner:active{transform:scale(0.99);}
+.seteuk-q{
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-3);
+  margin-bottom:6px;
+  letter-spacing:-0.01em;
+}
+.seteuk-brand{
+  font-size:15px;
+  font-weight:700;
+  color:var(--ink);
+  margin-bottom:10px;
+  letter-spacing:-0.02em;
+}
+.seteuk-cta{
+  display:inline-block;
+  font-size:13px;
+  font-weight:700;
+  color:#fff;
+  background:var(--grad-1);
+  padding:8px 16px;
+  border-radius:30px;
+  letter-spacing:-0.01em;
+}
 </style>
 </head>
 <body>
@@ -846,6 +887,13 @@ body::after{
         </svg>
       </div>
     </a>
+
+    <!-- 세특구원자 배너 -->
+    <a href="https://contents.premium.naver.com/midask/segu914" target="_blank" class="seteuk-banner">
+      <div class="seteuk-q">지금 당장 수행 · 진로 탐구 주제가 필요하시다면?</div>
+      <div class="seteuk-brand">마이더스K 공식 탐구주제 · 보고서 플랫폼</div>
+      <div class="seteuk-cta">세특구원자 바로가기</div>
+    </a>
   </div>
 
 </div>
@@ -982,13 +1030,18 @@ function handleSubmit() {
   const schoolEl = document.getElementById('schoolName');
   if (!schoolEl.value.trim()) { flashError(schoolEl); showToast('⚠️ 학교명을 입력해주세요.'); return; }
 
-  // 보호자 전화번호: 3칸 모두 입력 확인
+  // 보호자 전화번호: 자릿수 정확히 확인
   const p1 = document.getElementById('p1').value.trim();
   const p2 = document.getElementById('p2').value.trim();
   const p3 = document.getElementById('p3').value.trim();
   if (!p1 || !p2 || !p3) {
     flashPhoneError(['p1','p2','p3']);
     showToast('⚠️ 보호자 연락처를 모두 입력해주세요.');
+    return;
+  }
+  if (p2.length !== 4 || p3.length !== 4) {
+    flashPhoneError(['p2','p3']);
+    showToast('⚠️ 연락처 자릿수를 확인해주세요. (010-0000-0000)');
     return;
   }
 
