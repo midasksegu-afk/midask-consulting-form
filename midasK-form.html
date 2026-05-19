@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>마이더스K 교육컨설팅 · 통합 예약 신청</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root{
+  --bg:        #F6F4F1;          /* warm cream */
+  --bg-2:      #FFFFFF;
+  --ink:       #15151A;          /* near black, slight warm */
+  --ink-2:     #43434A;
+  --ink-3:     #86868B;          /* apple secondary */
+  --ink-4:     #B8B8BE;
+  --line:      rgba(0,0,0,0.08);
+  --line-2:    rgba(0,0,0,0.05);
+  --card:      rgba(255,255,255,0.72);
+  --card-solid:#FFFFFF;
+
+  /* Fusion accent gradient — peach → coral → lavender → sky */
+  --grad-1: linear-gradient(120deg, #FFB89A 0%, #FF8FB1 35%, #B79CFF 68%, #7BC2FF 100%);
+  --grad-soft: linear-gradient(120deg, #FFE3D4 0%, #FFD3E1 35%, #E1D6FF 68%, #D4ECFF 100%);
+  --grad-mesh-1: radial-gradient(60% 50% at 12% 8%,  rgba(255,180,150,0.55) 0%, rgba(255,180,150,0) 70%);
+  --grad-mesh-2: radial-gradient(55% 45% at 95% 18%, rgba(183,156,255,0.45) 0%, rgba(183,156,255,0) 70%);
+  --grad-mesh-3: radial-gradient(70% 55% at 50% 95%, rgba(123,194,255,0.40) 0%, rgba(123,194,255,0) 70%);
+  --grad-mesh-4: radial-gradient(45% 40% at 80% 65%, rgba(255,143,177,0.35) 0%, rgba(255,143,177,0) 70%);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;}
+html,body{font-family:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',sans-serif;}
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--ink);
+  padding-bottom:60px;
+  overflow-x:hidden;
+  position:relative;
+  letter-spacing:-0.01em;
+}
+
+/* Iridescent mesh background */
+body::before{
+  content:'';
+  position:fixed;
+  inset:-10%;
+  background:var(--grad-mesh-1),var(--grad-mesh-2),var(--grad-mesh-3),var(--grad-mesh-4);
+  filter:saturate(1.05);
+  pointer-events:none;
+  z-index:0;
+  animation:meshDrift 18s ease-in-out infinite alternate;
+}
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.55) 100%);
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes meshDrift{
+  0%   { transform:translate3d(0,0,0) scale(1); }
+  100% { transform:translate3d(-2%,1.5%,0) scale(1.05); }
+}
+
+.page-wrap{
+  position:relative;
+  z-index:1;
+  max-width:500px;
+  margin:0 auto;
+  padding:0 18px;
+}
+
+/* HERO */
+.hero{
+  padding:54px 6px 36px;
+  text-align:left;
+}
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(255,255,255,0.7);
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:6px 13px 6px 10px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--ink-2);
+  letter-spacing:0.06em;
+  margin-bottom:22px;
+  backdrop-filter:blur(20px) saturate(1.5);
+  -webkit-backdrop-filter:blur(20px) saturate(1.5);
+  box-shadow:0 1px 0 rgba(255,255,255,0.6) inset, 0 4px 14px rgba(20,20,40,0.04);
+}
+.eyebrow-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--grad-1);
+  box-shadow:0 0 0 3px rgba(255,255,255,0.6);
+}
+.hero h1{
+  font-size:36px;
+  font-weight:800;
+  line-height:1.18;
+  letter-spacing:-0.035em;
+  margin-bottom:16px;
+  color:var(--ink);
+}
+.hero h1 .hl{
+  background:var(--grad-1);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-sub{
+  font-size:15px;
+  font-weight:400;
+  color:var(--ink-3);
+  line-height:1.6;
+  letter-spacing:-0.01em;
+  max-width:34ch;
+}
+
+/* CARD */
+.card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:24px;
+  padding:24px 22px;
+  margin-bottom:12px;
+  backdrop-filter:blur(28px) saturate(1.6);
+  -webkit-backdrop-filter:blur(28px) saturate(1.6);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 1px 2px rgba(20,20,40,0.04),
+    0 12px 32px -8px rgba(20,20,40,0.07);
+  animation:fadeUp .5s cubic-bezier(.2,.7,.2,1) both;
+}
+.card:nth-child(1){animation-delay:.05s}
+.card:nth-child(2){animation-delay:.10s}
+.card:nth-child(3){animation-delay:.15s}
+.card:nth-child(4){animation-delay:.20s}
+.card:nth-child(5){animation-delay:.25s}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to  {opacity:1;transform:translateY(0);}
+}
+
+.card-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+}
+.card-num{
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:0.08em;
+  background:var(--grad-soft);
+  border:1px solid rgba(255,255,255,0.7);
+  padding:5px 11px;
+  border-radius:30px;
+  position:relative;
+}
+.card-title{
+  font-size:17px;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:-0.025em;
+}
+.card-req{
+  margin-left:auto;
+  font-size:12px;
+  font-weight:500;
+  color:var(--ink-3);
+  letter-spacing:-0.01em;
+}
+
+/* FIELDS */
+.field{margin-bottom:14px;}
+.field:last-child{margin-bottom:0;}
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink-2);
+  margin-bottom:8px;
+  letter-spacing:-0.01em;
+}
+.field input{
+  width:100%;
+  padding:15px 16px;
+  background:rgba(255,255,255,0.85);
+  border:1px solid var(--line);
+  border-radius:14px;
+  font-size:16px;
+  font-weight:500;
+  color:var(--ink);
+  outline:none;
+  transition:all .2s ease;
+  -webkit-appearance:none;
+  font-family:inherit;
+  letter-spacing:-0.01em;
+}
+.field input::placeholder{
+  color:var(--ink-4);
+  font-weight:400;
+}
+.field input:focus{
+  border-color:rgba(183,156,255,0.7);
+  background:#fff;
+  box-shadow:0 0 0 4px rgba(183,156,255,0.15);
+}
+.field input:hover:not(:focus){
+  border-color:rgba(0,0,0,0.16);
+}
+/* 3칸 전화번호 입력 */
+.phone-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.phone-row .p-seg{
+  flex:1;
+  padding:15px 0;
+  background:rgba(255,255,255,0.85);
+  border:1px solid var(--line);
+  border-radius:14px;
+  font-size:16px;
+  font-weight:500;
+  color:var(--ink);
+  outline:none;
+  transition:all .2s ease;
+  -webkit-appearance:none;
+  font-family:inherit;
+  letter-spacing:0.05em;
+  text-align:center;
+  width:0; /* flex가 균등 분배 */
+  min-width:0;
+}
+.phone-row .p-seg::placeholder{
+  color:var(--ink-4);
+  font-weight:400;
+  letter-spacing:0;
+}
+.phone-row .p-seg:focus{
+  border-color:rgba(183,156,255,0.7);
+  background:#fff;
+  box-shadow:0 0 0 4px rgba(183,156,255,0.15);
+}
+.phone-sep{
+  font-size:18px;
+  font-weight:300;
+  color:var(--ink-3);
+  flex-shrink:0;
+  user-select:none;
+}
+/* SELECT 드롭다운 */
+.field-select{
+  width:100%;
+  padding:15px 40px 15px 16px;
+  background:rgba(255,255,255,0.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%2386868B' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+  border:1px solid var(--line);
+  border-radius:14px;
+  font-size:16px;
+  font-weight:500;
+  color:var(--ink);
+  outline:none;
+  transition:all .2s ease;
+  -webkit-appearance:none;
+  appearance:none;
+  font-family:inherit;
+  letter-spacing:-0.01em;
+  cursor:pointer;
+}
+.field-select:focus{
+  border-color:rgba(183,156,255,0.7);
+  background-color:#fff;
+  box-shadow:0 0 0 4px rgba(183,156,255,0.15);
+}
+.field-select option{color:var(--ink);font-weight:500;}
+.field-select optgroup{color:var(--ink-3);font-size:12px;font-weight:600;}
+.field-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:14px;
+}
+.field-row .field{margin-bottom:0;}
+.optional{
+  color:var(--ink-4);
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+/* ROUTE GRID */
+.route-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.sel-item{position:relative;}
+.sel-item input{
+  position:absolute;opacity:0;width:0;height:0;pointer-events:none;
+}
+.sel-label{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px 8px;
+  background:rgba(255,255,255,0.85);
+  border:1px solid var(--line);
+  border-radius:14px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  color:var(--ink-2);
+  text-align:center;
+  transition:all .18s ease;
+  letter-spacing:-0.02em;
+}
+.sel-label:active{transform:scale(0.97);}
+.sel-item input:checked + .sel-label{
+  background:#fff;
+  border-color:transparent;
+  color:var(--ink);
+  box-shadow:
+    0 0 0 2px transparent,
+    0 6px 18px -4px rgba(255,143,177,0.25);
+  background-image:linear-gradient(#fff,#fff),var(--grad-1);
+  background-origin:border-box;
+  background-clip:padding-box,border-box;
+  border:1.5px solid transparent;
+}
+
+/* SERVICE LIST */
+.svc-list{display:flex;flex-direction:column;gap:8px;}
+.svc-item{position:relative;}
+.svc-item input{
+  position:absolute;opacity:0;width:0;height:0;pointer-events:none;
+}
+.svc-label{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
+  background:rgba(255,255,255,0.85);
+  border:1px solid var(--line);
+  border-radius:16px;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+.svc-label:active{transform:scale(0.99);}
+.svc-check{
+  width:20px;height:20px;
+  border-radius:7px;
+  border:1.5px solid var(--ink-4);
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s ease;
+  background:#fff;
+}
+.svc-check svg{opacity:0;transition:opacity .15s;}
+.svc-item input:checked + .svc-label{
+  background:#fff;
+  border-color:transparent;
+  background-image:linear-gradient(#fff,#fff),var(--grad-1);
+  background-origin:border-box;
+  background-clip:padding-box,border-box;
+  border:1.5px solid transparent;
+  box-shadow:0 6px 18px -4px rgba(183,156,255,0.22);
+}
+.svc-item input:checked + .svc-label .svc-check{
+  background:var(--grad-1);
+  border-color:transparent;
+}
+.svc-item input:checked + .svc-label .svc-check svg{opacity:1;}
+.svc-badge{
+  font-size:10px;
+  font-weight:700;
+  color:var(--ink-2);
+  background:var(--grad-soft);
+  padding:3px 8px;
+  border-radius:30px;
+  flex-shrink:0;
+  letter-spacing:0.05em;
+  border:1px solid rgba(255,255,255,0.7);
+}
+.svc-body{flex:1;}
+.svc-name{
+  font-size:14px;
+  font-weight:600;
+  color:var(--ink);
+  line-height:1.35;
+  margin-bottom:3px;
+  letter-spacing:-0.02em;
+}
+.svc-desc{
+  font-size:12px;
+  color:var(--ink-3);
+  font-weight:400;
+  line-height:1.45;
+  letter-spacing:-0.01em;
+}
+
+/* AGREE */
+.agree-wrap{margin-bottom:12px;animation:fadeUp .5s ease .3s both;}
+.agree-label{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:16px;
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:18px;
+  cursor:pointer;
+  transition:all .18s ease;
+  backdrop-filter:blur(20px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 14px rgba(20,20,40,0.04);
+}
+.agree-label:has(input:checked){
+  background-image:linear-gradient(rgba(255,255,255,0.85),rgba(255,255,255,0.85)),var(--grad-1);
+  background-origin:border-box;
+  background-clip:padding-box,border-box;
+  border:1.5px solid transparent;
+}
+.agree-label input{display:none;}
+.agree-check-box{
+  width:22px;height:22px;
+  border-radius:7px;
+  border:1.5px solid var(--ink-4);
+  flex-shrink:0;
+  margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s ease;
+  background:#fff;
+}
+.agree-label:has(input:checked) .agree-check-box{
+  background:var(--grad-1);
+  border-color:transparent;
+}
+.agree-chk{opacity:0;transition:opacity .15s;}
+.agree-label:has(input:checked) .agree-chk{opacity:1;}
+.agree-text{
+  font-size:12px;
+  color:var(--ink-3);
+  line-height:1.65;
+  letter-spacing:-0.01em;
+}
+.agree-text strong{
+  display:block;
+  color:var(--ink);
+  font-weight:600;
+  margin-bottom:4px;
+  font-size:13px;
+}
+
+/* TEL BANNER */
+.tel-banner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 18px 18px 20px;
+  background:var(--card);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:20px;
+  margin-bottom:12px;
+  text-decoration:none;
+  color:inherit;
+  animation:fadeUp .5s ease .32s both;
+  backdrop-filter:blur(20px) saturate(1.5);
+  box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 6px 18px rgba(20,20,40,0.05);
+  transition:transform .15s ease;
+}
+.tel-banner:active{transform:scale(.99);}
+.tel-tag{
+  font-size:11px;
+  font-weight:600;
+  color:var(--ink-3);
+  letter-spacing:0.02em;
+  margin-bottom:4px;
+}
+.tel-num{
+  font-size:24px;
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-0.03em;
+  font-feature-settings:"tnum";
+}
+.tel-arrow{
+  width:44px;height:44px;
+  background:var(--grad-1);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 6px 18px -2px rgba(255,143,177,0.4),0 0 0 1px rgba(255,255,255,0.4) inset;
+}
+
+/* SUBMIT */
+.submit-btn{
+  width:100%;
+  padding:19px;
+  color:#fff;
+  border:none;
+  border-radius:18px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  letter-spacing:-0.02em;
+  position:relative;
+  overflow:hidden;
+  animation:fadeUp .5s ease .35s both;
+  background:var(--grad-1);
+  background-size:200% 200%;
+  background-position:0% 50%;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.35) inset,
+    0 -1px 0 rgba(0,0,0,0.05) inset,
+    0 10px 28px -6px rgba(255,143,177,0.5),
+    0 6px 16px -8px rgba(123,194,255,0.4);
+  transition:transform .15s ease, background-position .6s ease;
+  font-family:inherit;
+}
+.submit-btn:hover{background-position:100% 50%;}
+.submit-btn::after{
+  content:'';
+  position:absolute;
+  top:0;left:-100%;
+  width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent);
+  animation:shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer{
+  0%{left:-100%;}
+  100%{left:200%;}
+}
+.submit-btn:active{transform:scale(0.985);}
+
+/* SUCCESS */
+.success-screen{
+  display:none;
+  text-align:center;
+  padding:80px 20px 40px;
+  animation:fadeUp .5s ease both;
+}
+.success-icon{
+  width:80px;height:80px;
+  background:var(--grad-1);
+  border-radius:50%;
+  margin:0 auto 26px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 18px 40px -10px rgba(255,143,177,0.5),0 0 0 8px rgba(255,255,255,0.6);
+  animation:pop .5s cubic-bezier(0.34,1.56,0.64,1) .2s both;
+}
+@keyframes pop{
+  from{transform:scale(0);opacity:0;}
+  to  {transform:scale(1);opacity:1;}
+}
+.success-screen h2{
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:10px;
+  letter-spacing:-0.03em;
+  color:var(--ink);
+}
+.success-screen p{
+  font-size:15px;
+  color:var(--ink-3);
+  line-height:1.65;
+  letter-spacing:-0.01em;
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      MIDAS K · 컨설팅 신청플랫폼
+    </div>
+    <h1>마이더스K<br><span class="hl">컨설팅 예약</span><br>신청서</h1>
+    <p class="hero-sub">학생 정보와 희망 컨설팅을 입력하시면<br>담당 선생님이 빠르게 연락드립니다.</p>
+  </div>
+
+  <div id="formArea">
+
+    <!-- 01 학생 정보 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-num">01</span>
+        <span class="card-title">학생 기본 정보</span>
+        <span class="card-req">필수</span>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>학생 이름</label>
+          <input type="text" id="studentName" placeholder="홍길동" required>
+        </div>
+        <div class="field">
+          <label>학년</label>
+          <select id="grade" class="field-select">
+            <option value="" disabled selected>선택</option>
+            <optgroup label="고등학생">
+              <option value="고1">고1</option>
+              <option value="고2">고2</option>
+              <option value="고3">고3</option>
+            </optgroup>
+            <optgroup label="재수생">
+              <option value="N수생">N수생</option>
+            </optgroup>
+            <optgroup label="중학생">
+              <option value="중1">중1</option>
+              <option value="중2">중2</option>
+              <option value="중3">중3</option>
+            </optgroup>
+            <optgroup label="초등학생">
+              <option value="초등학생">초등학생</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>학교명</label>
+        <input type="text" id="schoolName" placeholder="○○고등학교" required>
+      </div>
+    </div>
+
+    <!-- 02 연락처 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-num">02</span>
+        <span class="card-title">연락처</span>
+        <span class="card-req">필수</span>
+      </div>
+      <div class="field">
+        <label>보호자 연락처</label>
+        <div class="phone-row" id="parentPhoneRow">
+          <input class="p-seg" id="p1" type="tel" inputmode="numeric" maxlength="3" placeholder="010">
+          <span class="phone-sep">-</span>
+          <input class="p-seg" id="p2" type="tel" inputmode="numeric" maxlength="4" placeholder="0000">
+          <span class="phone-sep">-</span>
+          <input class="p-seg" id="p3" type="tel" inputmode="numeric" maxlength="4" placeholder="0000">
+        </div>
+      </div>
+      <div class="field">
+        <label>학생 연락처&nbsp;<span class="optional">(선택)</span></label>
+        <div class="phone-row" id="studentPhoneRow">
+          <input class="p-seg" id="s1" type="tel" inputmode="numeric" maxlength="3" placeholder="010">
+          <span class="phone-sep">-</span>
+          <input class="p-seg" id="s2" type="tel" inputmode="numeric" maxlength="4" placeholder="0000">
+          <span class="phone-sep">-</span>
+          <input class="p-seg" id="s3" type="tel" inputmode="numeric" maxlength="4" placeholder="0000">
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 학업·목표 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-num">03</span>
+        <span class="card-title">진로 · 학업</span>
+        <span class="card-req">필수</span>
+      </div>
+      <div class="field">
+        <label>목표 대학 / 학과</label>
+        <input type="text" id="target" placeholder="예: 서울대학교 의예과" required>
+      </div>
+      <div class="field">
+        <label>평균 내신등급</label>
+        <input type="text" id="gpa" placeholder="예: 1.5등급">
+      </div>
+      <div class="field">
+        <label>최근 모의고사 평균 백분위</label>
+        <input type="text" id="mock" placeholder="예: 95% (3월 전국 기준)">
+      </div>
+    </div>
+
+    <!-- 04 경로 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-num">04</span>
+        <span class="card-title">알게 된 경로</span>
+        <span class="card-req">필수</span>
+      </div>
+      <div class="route-grid">
+        <div class="sel-item"><input type="radio" name="route" id="r1" value="티처스"><label for="r1" class="sel-label">티처스</label></div>
+        <div class="sel-item"><input type="radio" name="route" id="r2" value="지인 추천"><label for="r2" class="sel-label">지인 추천</label></div>
+        <div class="sel-item"><input type="radio" name="route" id="r3" value="인스타그램"><label for="r3" class="sel-label">인스타그램</label></div>
+        <div class="sel-item"><input type="radio" name="route" id="r4" value="네이버 블로그"><label for="r4" class="sel-label">네이버 블로그</label></div>
+        <div class="sel-item"><input type="radio" name="route" id="r5" value="인터넷 검색"><label for="r5" class="sel-label">인터넷 검색</label></div>
+        <div class="sel-item"><input type="radio" name="route" id="r6" value="기존 상담"><label for="r6" class="sel-label">기존 상담</label></div>
+      </div>
+    </div>
+
+    <!-- 05 컨설팅 -->
+    <div class="card">
+      <div class="card-head">
+        <span class="card-num">05</span>
+        <span class="card-title">희망 컨설팅 선택</span>
+        <span class="card-req">복수 선택</span>
+      </div>
+      <div class="svc-list">
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s00" value="00">
+          <label for="s00" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">고1전용</span>
+            <div class="svc-body"><div class="svc-name">고1 학종 얼리버드 컨설팅</div><div class="svc-desc">학종특강 · 진로컨설팅 · 비교과 활동 기획</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s01" value="01">
+          <label for="s01" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">01</span>
+            <div class="svc-body"><div class="svc-name">학생부 연간 관리컨설팅</div><div class="svc-desc">학년별 맞춤형 연간 관리</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s02" value="02">
+          <label for="s02" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">02</span>
+            <div class="svc-body"><div class="svc-name">학생부 세특 관리컨설팅</div><div class="svc-desc">온라인 관리 솔루션</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s03" value="03">
+          <label for="s03" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">03</span>
+            <div class="svc-body"><div class="svc-name">세특전략 컨설팅</div><div class="svc-desc">강약점 분석 · 탐구 스토리 제공</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s04" value="04">
+          <label for="s04" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">04</span>
+            <div class="svc-body"><div class="svc-name">학종 특강</div><div class="svc-desc">학생부 셀프디자인 · 서류평가 원리 · 세특 전략 빌드업</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s05" value="05">
+          <label for="s05" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">05</span>
+            <div class="svc-body"><div class="svc-name">수시&amp;정시 원서전략 컨설팅</div><div class="svc-desc">합격 가능성 분석 및 최적 지원 전략 수립</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s06" value="06">
+          <label for="s06" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">06</span>
+            <div class="svc-body"><div class="svc-name">대입 수시 면접컨설팅</div><div class="svc-desc">서류기반 심층면접 · 티처스 컨설턴트 협업</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s07" value="07">
+          <label for="s07" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">07</span>
+            <div class="svc-body"><div class="svc-name">학생부 현장 분석</div><div class="svc-desc">종합 분석 및 개선 방향 제시</div></div>
+          </label>
+        </div>
+
+        <div class="svc-item">
+          <input type="checkbox" name="svc" id="s08" value="08">
+          <label for="s08" class="svc-label">
+            <div class="svc-check"><svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="svc-badge">08</span>
+            <div class="svc-body"><div class="svc-name">교과&amp;정시 전략관리 컨설팅</div><div class="svc-desc">교과 내신 + 수능 통합 전략관리</div></div>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 동의 -->
+    <div class="agree-wrap">
+      <label class="agree-label" for="agreeChk">
+        <input type="checkbox" id="agreeChk" required>
+        <div class="agree-check-box">
+          <svg class="agree-chk" width="12" height="10" viewBox="0 0 11 9" fill="none">
+            <path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="agree-text">
+          <strong>[필수] 개인정보 수집 · 이용 동의</strong>
+          입력하신 정보는 마이더스K 교육컨설팅의 무료 상담, 예약 접수, 컨설팅 안내 문자 등 고객관리 목적으로만 활용됩니다.
+        </div>
+      </label>
+    </div>
+
+    <!-- 전화 -->
+    <a href="tel:053-782-0331" class="tel-banner">
+      <div>
+        <div class="tel-tag">전화 문의 · 클릭 시 바로 연결</div>
+        <div class="tel-num">053-782-0331</div>
+      </div>
+      <div class="tel-arrow">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M4 9H14M10 5L14 9L10 13" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <button class="submit-btn" onclick="handleSubmit()">컨설팅 예약 신청하기</button>
+
+  </div>
+
+  <!-- 성공 -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">
+      <svg width="34" height="34" viewBox="0 0 32 32" fill="none">
+        <path d="M6 16L13 23L26 9" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>예약 신청 완료</h2>
+    <p style="margin-bottom:32px;">신청이 접수되었습니다.<br>담당 선생님이 빠르게 연락드립니다.</p>
+    <a href="tel:053-782-0331" class="tel-banner" style="text-align:left;">
+      <div>
+        <div class="tel-tag">긴급 문의 · 직접 전화</div>
+        <div class="tel-num">053-782-0331</div>
+      </div>
+      <div class="tel-arrow">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M4 9H14M10 5L14 9L10 13" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<script>
+const FORM_ACTION = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdekYKnPgYRFSukf0WuZ2NnjOrFi7xrbrQkBLBinlO5YmXYfQ/formResponse';
+
+/* ── 토스트 알림 ── */
+function showToast(msg) {
+  let t = document.getElementById('_toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = '_toast';
+    t.style.cssText = [
+      'position:fixed','bottom:32px','left:50%',
+      'transform:translateX(-50%) translateY(20px)',
+      'background:rgba(21,21,26,0.92)','color:#fff',
+      'padding:14px 22px','border-radius:14px',
+      'font-size:14px','font-weight:600','letter-spacing:-0.02em',
+      'z-index:9999','opacity:0','transition:all .25s ease',
+      'backdrop-filter:blur(12px)','white-space:nowrap',
+      'box-shadow:0 8px 28px rgba(0,0,0,0.18)',
+      'font-family:inherit'
+    ].join(';');
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(() => {
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(10px)';
+  }, 2800);
+}
+
+/* ── 필드 에러 하이라이트 ── */
+function flashError(el) {
+  el.style.borderColor = 'rgba(255,70,100,0.7)';
+  el.style.boxShadow   = '0 0 0 4px rgba(255,70,100,0.12)';
+  el.focus();
+  setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2200);
+}
+
+/* ── 전화번호 row 에러 하이라이트 ── */
+function flashPhoneError(ids) {
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.borderColor = 'rgba(255,70,100,0.7)';
+      el.style.boxShadow   = '0 0 0 4px rgba(255,70,100,0.12)';
+      setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2200);
+    }
+  });
+  document.getElementById('p1').focus();
+}
+
+/* ── 3칸 전화번호 조합 ── */
+function getPhone(a, b, c) {
+  const v1 = document.getElementById(a).value.trim();
+  const v2 = document.getElementById(b).value.trim();
+  const v3 = document.getElementById(c).value.trim();
+  if (!v1 && !v2 && !v3) return '';
+  return [v1, v2, v3].join('-');
+}
+
+/* ── 3칸 자동 분배 핵심 로직 ── */
+function setupPhoneRow(ids, maxLens) {
+  // ids: [첫칸id, 둘째칸id, 셋째칸id]
+  // maxLens: [3, 4, 4]
+  const els = ids.map(id => document.getElementById(id));
+
+  els.forEach((el, idx) => {
+    el.setAttribute('maxlength', maxLens[idx]);
+
+    el.addEventListener('input', function () {
+      // 숫자만 허용
+      this.value = this.value.replace(/\D/g, '');
+
+      // 꽉 찼으면 다음 칸으로 포커스 이동
+      if (this.value.length >= maxLens[idx] && idx < els.length - 1) {
+        els[idx + 1].focus();
+        els[idx + 1].select();
+      }
+    });
+
+    // 붙여넣기: 전체 번호 11자리를 첫 칸에 붙여넣으면 자동 분배
+    el.addEventListener('paste', function (e) {
+      if (idx !== 0) return; // 첫 칸에서만 처리
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData)
+        .getData('text').replace(/\D/g, '').slice(0, 11);
+      if (pasted.length >= 7) {
+        els[0].value = pasted.slice(0, 3);
+        els[1].value = pasted.length === 11
+          ? pasted.slice(3, 7)
+          : pasted.slice(3, 6);
+        els[2].value = pasted.length === 11
+          ? pasted.slice(7)
+          : pasted.slice(6);
+        els[2].focus();
+      } else {
+        els[0].value = pasted;
+      }
+    });
+
+    // 백스페이스: 빈 칸에서 이전 칸으로 이동
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && this.value === '' && idx > 0) {
+        els[idx - 1].focus();
+        const len = els[idx - 1].value.length;
+        els[idx - 1].setSelectionRange(len, len);
+      }
+    });
+  });
+}
+
+/* ── 제출 처리 ── */
+function handleSubmit() {
+
+  const nameEl = document.getElementById('studentName');
+  if (!nameEl.value.trim()) { flashError(nameEl); showToast('⚠️ 학생 이름을 입력해주세요.'); return; }
+
+  const gradeEl = document.getElementById('grade');
+  if (!gradeEl.value) {
+    gradeEl.style.borderColor = 'rgba(255,70,100,0.7)';
+    gradeEl.style.boxShadow   = '0 0 0 4px rgba(255,70,100,0.12)';
+    setTimeout(() => { gradeEl.style.borderColor = ''; gradeEl.style.boxShadow = ''; }, 2200);
+    showToast('⚠️ 학년을 선택해주세요.'); return;
+  }
+
+  const schoolEl = document.getElementById('schoolName');
+  if (!schoolEl.value.trim()) { flashError(schoolEl); showToast('⚠️ 학교명을 입력해주세요.'); return; }
+
+  // 보호자 전화번호: 3칸 모두 입력 확인
+  const p1 = document.getElementById('p1').value.trim();
+  const p2 = document.getElementById('p2').value.trim();
+  const p3 = document.getElementById('p3').value.trim();
+  if (!p1 || !p2 || !p3) {
+    flashPhoneError(['p1','p2','p3']);
+    showToast('⚠️ 보호자 연락처를 모두 입력해주세요.');
+    return;
+  }
+
+  const svcEls = document.querySelectorAll('input[name="svc"]:checked');
+  if (!svcEls.length) {
+    document.querySelector('.svc-list').scrollIntoView({ behavior:'smooth', block:'center' });
+    showToast('⚠️ 희망 컨설팅을 1개 이상 선택해주세요.');
+    return;
+  }
+
+  const routeEl = document.querySelector('input[name="route"]:checked');
+  if (!routeEl) { showToast('⚠️ 알게 된 경로를 선택해주세요.'); return; }
+
+  if (!document.getElementById('agreeChk').checked) {
+    showToast('⚠️ 개인정보 수집 이용에 동의해주세요.');
+    return;
+  }
+
+  /* 데이터 조합 */
+  const studentInfo = [
+    nameEl.value.trim(),
+    schoolEl.value.trim(),
+    gradeEl.value
+  ].filter(Boolean).join(', ');
+
+  const parentPhone  = [p1, p2, p3].join('-');
+  const studentPhone = getPhone('s1','s2','s3');
+  const target    = document.getElementById('target').value.trim();
+  const gpa       = document.getElementById('gpa').value.trim();
+  const mock      = document.getElementById('mock').value.trim();
+  const gradeInfo = [gpa, mock].filter(Boolean).join(' / ');
+
+  const svcMap = {
+    '00': '예비고1 학종 얼리버드 컨설팅 (학종특강, 진로컨설팅, 비교과 활동 기획)',
+    '01': '학생부 관리컨설팅 (학년별 연간관리)',
+    '02': '학생부 기재 관리컨설팅 (온라인 세특 관리)',
+    '03': '세특전략 컨설팅 (학생부 강약점 분석 + 이전 활동 심화 확장 주제 및 탐구 스토리 제공 )',
+    '04': '학종 특강 (학생부 셀프디자인, 서류평가 원리, 세특 전략 빌드업 수업)',
+    '05': '수시&정시 원서전략 컨설팅',
+    '06': '대입 수시 면접컨설팅 (서류기반 심층면접)',
+    '07': '학생부 현장 분석',
+    '08': '교과&정시 전략관리  컨설팅',
+  };
+
+  /* 구글폼 전송 */
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = FORM_ACTION;
+  form.target = 'hidden_iframe';
+  form.style.display = 'none';
+
+  function addField(name, value) {
+    const inp = document.createElement('input');
+    inp.type = 'hidden'; inp.name = name; inp.value = value;
+    form.appendChild(inp);
+  }
+
+  addField('entry.1941031617', studentInfo);
+  addField('entry.427698587',  parentPhone);
+  if (studentPhone) addField('entry.249460887', studentPhone);
+  if (target)       addField('entry.599451360', target);
+  if (gradeInfo)    addField('entry.312604734', gradeInfo);
+  addField('entry.2055232012', routeEl.value);
+  svcEls.forEach(el => addField('entry.1925903234', svcMap[el.value] || el.value));
+  addField('entry.2104013912', '예');
+  addField('entry.349635224',  '예');
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+
+  setTimeout(() => {
+    document.getElementById('formArea').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 400);
+}
+
+/* ── 초기화 ── */
+document.addEventListener('DOMContentLoaded', function () {
+  // 숨김 iframe
+  const iframe = document.createElement('iframe');
+  iframe.name = 'hidden_iframe';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  // 보호자 전화 3칸
+  setupPhoneRow(['p1','p2','p3'], [3, 4, 4]);
+  // 학생 전화 3칸
+  setupPhoneRow(['s1','s2','s3'], [3, 4, 4]);
+});
+</script>
+</body>
+</html>
