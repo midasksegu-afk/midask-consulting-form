@@ -11,7 +11,10 @@
     var OLD = { '00': 'p09', '02': 'p01', '03': 'p03', '04': 'p04', '06': 'c03', '07': 'p08', '08': 'p07' };
     var raw = (location.hash || '').slice(1) || (new URLSearchParams(location.search).get('svc') || '');
     var key = OLD[raw] || (/^[a-z][a-z0-9-]{1,19}$/.test(raw) ? raw : '');
-    location.replace('https://midasksegu-afk.github.io/brochure/midasK-form.html' + (key ? '#' + key : ''));
+    // 2026-10-14 — 마이더스K 문자 링크 표시(?rc=)는 새 신청폼으로 그대로 넘긴다(누구 신청인지 리서치센터가 알게)
+    var rc = new URLSearchParams(location.search).get('rc') || '';
+    rc = /^[A-Za-z0-9_-]{4,24}$/.test(rc) ? '?rc=' + rc : '';
+    location.replace('https://midasksegu-afk.github.io/brochure/midasK-form.html' + rc + (key ? '#' + key : ''));
   })();
 </script>
 </head><body style="font-family:sans-serif;padding:40px;text-align:center">
